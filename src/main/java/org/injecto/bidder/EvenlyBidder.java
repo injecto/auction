@@ -6,6 +6,8 @@ import static java.lang.Math.min;
 
 /**
  * Evenly distributes the cash to handle the quantity.
+ * <p>
+ * Assumption: use maximum available cash for every bid.
  */
 public class EvenlyBidder implements Bidder {
     private int leftCash;

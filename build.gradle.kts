@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    application
 }
 
 group = "org.injecto"
@@ -16,4 +17,8 @@ dependencies {
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("org.injecto.Runner")
 }

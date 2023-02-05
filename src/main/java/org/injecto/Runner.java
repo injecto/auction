@@ -12,23 +12,26 @@ import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 public class Runner {
+    /**
+     * @return [ties_number, bidder1_win_number, bidder2_win_number]
+     */
     private static int[] run(int runsNumber, Supplier<Bidder> bidder1Factory, Supplier<Bidder> bidder2Factory) {
         return Arrays.stream(IntStream.range(0, runsNumber).parallel().map(i -> {
-                    var turnsNumber = ThreadLocalRandom.current().nextInt(1, 100);
-                    var cash = ThreadLocalRandom.current().nextInt(turnsNumber, turnsNumber * 10);
-                    Bidder bidder1 = bidder1Factory.get();
-                    var auction = new Auction(turnsNumber * Auction.TURN_QUANTITY, cash, bidder1, bidder2Factory.get());
-                    var winner = auction.hold();
-                    if (winner == null) {
-                        return 0;
-                    } else {
-                        return winner.equals(bidder1) ? 1 : 2;
-                    }
-                }).collect(() -> new int[3], (counters, winner) -> counters[winner]++, (accumulator, counters) -> {
-                    for (int i = 0; i < counters.length; i++) {
-                        accumulator[i] += counters[i];
-                    }
-                })).toArray();
+            var turnsNumber = ThreadLocalRandom.current().nextInt(1, 100);
+            var cash = ThreadLocalRandom.current().nextInt(turnsNumber, turnsNumber * 10);
+            Bidder bidder1 = bidder1Factory.get();
+            var auction = new Auction(turnsNumber * Auction.TURN_QUANTITY, cash, bidder1, bidder2Factory.get());
+            var winner = auction.hold();
+            if (winner == null) {
+                return 0;
+            } else {
+                return winner.equals(bidder1) ? 1 : 2;
+            }
+        }).collect(() -> new int[3], (counters, winner) -> counters[winner]++, (accumulator, counters) -> {
+            for (int i = 0; i < counters.length; i++) {
+                accumulator[i] += counters[i];
+            }
+        })).toArray();
     }
 
     public static void main(String[] args) {
@@ -42,7 +45,7 @@ public class Runner {
         var combinations = new ArrayList<int[]>();
         for (int i = 0; i < opponents.size(); i++) {
             for (int j = i; j < opponents.size(); j++) {
-                combinations.add(new int[] {i, j});
+                combinations.add(new int[]{i, j});
             }
         }
         var wins = combinations.stream().parallel().map(opponentsIdx -> {

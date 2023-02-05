@@ -5,7 +5,7 @@ import auction.Bidder;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Makes random bids.
+ * Makes random bids. There is no idea behind, used as a baseline mostly.
  */
 public class RandomBidder implements Bidder {
     private int cash;

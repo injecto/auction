@@ -9,6 +9,8 @@ import static java.lang.Math.min;
 
 /**
  * Evenly distributes the cash to handle half of the quantity.
+ * <p>
+ * Assumption: should win in 50% + 1 of cases providing maximum available cash for the bid.
  */
 public class EvenlyHalfBidder implements Bidder {
     private int[] bids;

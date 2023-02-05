@@ -7,6 +7,11 @@ import java.util.Arrays;
 import static java.lang.Math.ceil;
 import static java.lang.Math.min;
 
+/**
+ * Follows the opponent's bids and tries to bid a bit more than it's median bid among the last N bids.
+ * <p>
+ * Assumption: try to be not worse than the opponent despite its strategy.
+ */
 public class ReactiveBidder implements Bidder {
     private int ownCash;
     private Window opponentBids;
@@ -15,7 +20,7 @@ public class ReactiveBidder implements Bidder {
     @Override
     public void init(int quantity, int cash) {
         ownCash = cash;
-        opponentBids = new Window(5); // TODO better heuristic
+        opponentBids = new Window(5); // TODO better heuristic, according to the provided quantity maybe
     }
 
     @Override
@@ -47,6 +52,11 @@ public class ReactiveBidder implements Bidder {
         return "Reactive";
     }
 
+    /**
+     * Sliding window of values.
+     *
+     * TODO unit tests
+     */
     private static class Window {
         int seqNo;
         int lowestSeqNo;
